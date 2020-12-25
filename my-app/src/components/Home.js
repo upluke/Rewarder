@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Cards from "./Cards";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import data from "../data"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -15,63 +15,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default () => {
-  // data base
-  const [rewards, setRewards] = useState([
-    {
-      id: 1,
-      cardTitle: "Time Novice",
-      emoji: "🍦",
-      color: "#aa96da",
-      time: 6 / 6,
-      light: "off",
-    },
-    {
-      id: 2,
-      cardTitle: "Time Wizard ",
-      emoji: "🍓",
-      color: "#fcbad3",
-      time: 5 / 6,
-      light: "off",
-    },
-    {
-      id: 3,
-      cardTitle: "Master Monster",
-      emoji: "🍿",
-      color: "#ffffd2",
-      time: 4 / 6,
-      light: "off",
-    },
-    {
-      id: 4,
-      cardTitle: "Time Master",
-      emoji: "🍟",
-      color: "#d6e0f0",
-      time: 3 / 6,
-      light: "off",
-    },
-    {
-      id: 5,
-      cardTitle: "Time Start",
-      emoji: "⭐️",
-      color: "#99f3bd",
-      time: 2 / 6,
-      light: "off",
-    },
-    {
-      id: 6,
-      cardTitle: "Master Champion",
-      emoji: "🏅",
-      color: "#ffbb91",
-      time: 1 / 6,
-      light: "off",
-    },
-  ]);
-  const classes = useStyles();
+  const [rewards, setRewards] = useState(data);
   const [isPlay, setIsPlay] = useState(true);
   const [userTime, setUserTime] = useState(0);
   const [tempUserTime, setTempUserTime] = useState(0);
   const [timeRemained, setTimeRemained] = useState(0);
   const [toggle, setToggle] = useState(true);
+  const classes = useStyles();
+
   const remainTime = ({ remainingTime }) => {
     const minutes = Math.floor(remainingTime / 60);
     const seconds = remainingTime % 60;
@@ -146,7 +97,7 @@ export default () => {
         rewards={rewards}
         lightControl={lightControl}
       />
-      Break
+ 
     </div>
   );
 };

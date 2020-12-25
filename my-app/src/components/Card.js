@@ -1,12 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-
-import CardContent from "@material-ui/core/CardContent";
-
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +29,7 @@ export default ({
   console.log(time, timeRemained, userTime, "total: ", time * userTime);
   React.useEffect(() => {
     // compre to usertime with time
-    if (Math.floor(time * userTime) == timeRemained) {
+    if (Math.floor(time * userTime) === timeRemained) {
       lightControl(id);
     }
   }, [timeRemained]);
