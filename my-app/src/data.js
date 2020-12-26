@@ -45,7 +45,7 @@ const data=
           cardTitle: "Master Champion",
           emoji: "🏅",
           color: "#ffbb91",
-          time: 1 / 6,
+          time: 1/6,
           light: "off",
         },
       ]

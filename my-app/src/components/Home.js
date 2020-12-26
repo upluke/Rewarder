@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Cards from "./Cards";
 import { makeStyles } from "@material-ui/core/styles";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
@@ -8,7 +8,7 @@ import data from "../data"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    margin: 60,
+    margin: 30,
     display: "flex",
     justifyContent: "center",
   },
@@ -16,52 +16,57 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const [rewards, setRewards] = useState(data);
-  const [isPlay, setIsPlay] = useState(true);
   const [userTime, setUserTime] = useState(0);
   const [tempUserTime, setTempUserTime] = useState(0);
   const [timeRemained, setTimeRemained] = useState(0);
   const [toggle, setToggle] = useState(true);
   const classes = useStyles();
+  
+  useEffect(()=>{
+    if (timeRemained===0){
+      setUserTime(0)
+      setRewards(data)
+    }
+  },[timeRemained])
 
   const remainTime = ({ remainingTime }) => {
+    console.log("remainingTime:",remainingTime)
     const minutes = Math.floor(remainingTime / 60);
     const seconds = remainingTime % 60;
 
-    setTimeRemained(remainingTime);
+    setTimeRemained(remainingTime); // one of the problems is here
     return `${minutes}:${seconds}`;
   };
 
   const lightControl = (id) => {
-    console.log("in the control ", id);
+    
     const undateLight = rewards.map((el) => {
       if (el.id === id) {
         return { ...el, light: "on" };
       }
       return el;
     });
-    console.log("updatelight:", undateLight);
     setRewards(undateLight);
   };
 
-  const handleUsertime = () => {
+  const handleSubmit = () => {
     setUserTime(tempUserTime);
     setTempUserTime(0);
   };
 
   const handleToggle = () => {
-    setIsPlay(!isPlay);
     setToggle(!toggle);
   };
 
-  console.log("light:", rewards.light);
-  console.log(typeof userTime);
+ 
+ console.log("remaintime: ",timeRemained)
   return (
     <div>
       <div className={classes.root}>
-        {userTime ? (
+        {userTime!==0 ? (
           // timer libary
           <CountdownCircleTimer
-            isPlaying={isPlay ? true : false}
+            isPlaying={toggle ? true : false}
             duration={userTime}
             colors={[
               ["#004777", 0.33],
@@ -71,24 +76,24 @@ export default () => {
           >
             {remainTime}
           </CountdownCircleTimer>
-        ) : null}
-
-        <br />
+        ) : <div> 
+          <h5>Please enter a number and click the SUBMIT button.</h5>
+          <TextField 
+            label="Enter a number "
+            value={tempUserTime}
+            onChange={(e) => {
+              setTempUserTime(parseInt(e.target.value));
+            }}
+          /></div>}
+ 
       </div>
       <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="standard-basic"
-          label="Enter a number "
-          onChange={(e) => {
-            setTempUserTime(parseInt(e.target.value));
-          }}
-        />
-        <Button variant="contained" color="secondary" onClick={handleUsertime}>
+
+        <Button variant="contained" color="secondary" onClick={handleSubmit}>
           Submit
         </Button>
         <Button variant="contained" color="primary" onClick={handleToggle}>
-          {" "}
-          {!toggle ? "Start" : "Pause"}
+          {!toggle ? "Restart" : "Pause"}
         </Button>
       </form>
       <Cards
