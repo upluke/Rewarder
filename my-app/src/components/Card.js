@@ -1,12 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-
-import CardContent from "@material-ui/core/CardContent";
-
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,24 +26,22 @@ export default ({
 }) => {
   const classes = useStyles();
 
-  console.log(time, timeRemained, userTime, "total: ", time * userTime);
   React.useEffect(() => {
     // compre to usertime with time
-    if (Math.floor(time * userTime) == timeRemained) {
+    if (Math.floor(time * userTime) === timeRemained) {
       lightControl(id);
     }
-  }, [timeRemained]);
-  console.log(id, "real light: ", light);
+  }, [timeRemained]); // another problem is here
+ 
+
   return (
     <Grid item xs={12} sm={6} lg={4}>
       <Button
         disabled={light === "off" ? true : false}
         className={classes.root}
         style={{ backgroundColor: color }}
-        // onClick={() => setEmojiSwitch(!emojiSwitch)}
       >
         <Typography variant="h5">{cardTitle}</Typography>
-
         <Typography variant="h1">{emoji}</Typography>
       </Button>
     </Grid>
