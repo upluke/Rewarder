@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import Cards from "./Cards";
 import { makeStyles } from "@material-ui/core/styles";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 import TextField from "@material-ui/core/TextField";
 import data from "../data"
 const useStyles = makeStyles((theme) => ({
@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  timerDiv:{
+    margin:30
+  }
 }));
 
 export default () => {
@@ -65,17 +68,31 @@ export default () => {
       <div className={classes.root}>
         {userTime!==0 ? (
           // timer libary
-          <CountdownCircleTimer
-            isPlaying={toggle ? true : false}
-            duration={userTime}
-            colors={[
-              ["#004777", 0.33],
-              ["#F7B801", 0.33],
-              ["#A30000", 0.33],
-            ]}
-          >
-            {remainTime}
-          </CountdownCircleTimer>
+          <div >
+            <CountdownCircleTimer
+              isPlaying={toggle ? true : false}
+              duration={userTime}
+              colors={[
+                ["#004777", 0.33],
+                ["#F7B801", 0.33],
+                ["#A30000", 0.33],
+              ]}
+            >
+              {remainTime}
+            </CountdownCircleTimer>
+            <div className={classes.timerDiv}>
+              <Button variant="contained" color="primary" onClick={handleToggle}>
+                  {!toggle ? "Restart" : "Pause"}
+              </Button>
+              <hr/>
+              <Button variant="contained" color="primary" onClick={()=>{
+                      setUserTime(0)
+                      setRewards(data)
+              }}>
+                  Cancel
+              </Button>
+            </div> 
+          </div>
         ) : <div> 
           <h5>Please enter a number and click the SUBMIT button.</h5>
           <TextField 
@@ -84,18 +101,16 @@ export default () => {
             onChange={(e) => {
               setTempUserTime(parseInt(e.target.value));
             }}
-          /></div>}
+          />
+            <form className={classes.root} noValidate autoComplete="off">
+              <Button variant="contained" color="secondary" onClick={handleSubmit}>
+                Submit
+              </Button>
+            </form>
+          </div>}
  
       </div>
-      <form className={classes.root} noValidate autoComplete="off">
-
-        <Button variant="contained" color="secondary" onClick={handleSubmit}>
-          Submit
-        </Button>
-        <Button variant="contained" color="primary" onClick={handleToggle}>
-          {!toggle ? "Restart" : "Pause"}
-        </Button>
-      </form>
+  
       <Cards
         timeRemained={timeRemained}
         userTime={userTime}
