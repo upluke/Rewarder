@@ -19,14 +19,9 @@ export default ({ rewards, timeRemained, lightControl, userTime }) => {
         {rewards.map((reward) => (
           <Card
             key={reward.id}
-            id={reward.id}
-            cardTitle={reward.cardTitle}
-            emoji={reward.emoji}
-            color={reward.color}
+            {...reward}
             timeRemained={timeRemained}
-            time={reward.time}
             lightControl={lightControl}
-            light={reward.light}
             userTime={userTime}
           />
         ))}
